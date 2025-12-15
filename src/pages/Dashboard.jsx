@@ -1,11 +1,12 @@
-import { useSelector } from "react-redux";
+import CalendarView from "../components/Calendar/CalenderView";
 
 const Dashboard = () => {
-    const calendarData = useSelector((state) => state.calendar.data);
-
-    console.log("Dummy data:", calendarData);
-
-    return <h2> Dashboard</h2>;
+  return (
+    <>
+      <h2>Dashboard</h2>
+      <CalendarView />
+    </>
+  );
 };
 
 export default Dashboard;
