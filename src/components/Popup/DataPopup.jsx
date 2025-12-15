@@ -1,4 +1,5 @@
-import { Dialog, DialogTitle, DialogContent, Typography } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, Typography, Box, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
 import { format } from "date-fns";
 import BarChart from "../Chart/BarChart";
@@ -29,7 +30,21 @@ const DataPopup = ({ open, onClose }) => {
       disableRestoreFocus
     >
       <DialogTitle>
-        Data for {formattedDate}
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <span>Data for {formattedDate}</span>
+
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
+            size="small"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
       </DialogTitle>
 
       <DialogContent>

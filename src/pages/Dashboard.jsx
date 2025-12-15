@@ -7,7 +7,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <h2>Dashboard</h2>
       <CalendarView onDateSelect={() => setOpen(true)} />
       <DataPopup
         open={open}
