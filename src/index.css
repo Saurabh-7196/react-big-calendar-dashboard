@@ -1,0 +1,16 @@
+/* Calendar cell that has data */
+.has-data {
+    position: relative;
+    overflow: hidden;
+}
+
+.has-data::after {
+    content: "";
+    width: 52px;
+    height: 52px;
+    background-color: #2196f3;
+    border-radius: 50%;
+    position: absolute;
+    top: -20px;
+    left: -20px;
+}

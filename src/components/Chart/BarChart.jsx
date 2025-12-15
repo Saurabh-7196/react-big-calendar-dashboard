@@ -9,6 +9,8 @@ const BarChart = ({ data }) => {
   useLayoutEffect(() => {
     if (!data || data.length === 0) return;
 
+    const isMobile = window.innerWidth < 600;
+
     const root = am5.Root.new(chartRef.current);
     root.setThemes([am5themes_Animated.new(root)]);
 
@@ -19,11 +21,11 @@ const BarChart = ({ data }) => {
         panY: false,
         wheelX: "none",
         wheelY: "none",
-        paddingLeft: 0,
+        paddingLeft: isMobile ? 10 : 0,
       })
     );
 
-    // Cursor (tooltip crosshair)
+    // Cursor
     const cursor = chart.set(
       "cursor",
       am5xy.XYCursor.new(root, {})
@@ -32,7 +34,14 @@ const BarChart = ({ data }) => {
 
     // X Axis
     const xRenderer = am5xy.AxisRendererX.new(root, {
-      minGridDistance: 30,
+      minGridDistance: isMobile ? 15 : 30,
+    });
+
+    xRenderer.labels.template.setAll({
+      rotation: isMobile ? -45 : 0,
+      centerY: am5.p50,
+      centerX: am5.p50,
+      fontSize: isMobile ? 10 : 12,
     });
 
     xRenderer.grid.template.set("visible", false);
@@ -47,6 +56,10 @@ const BarChart = ({ data }) => {
 
     // Y Axis
     const yRenderer = am5xy.AxisRendererY.new(root, {});
+
+    yRenderer.labels.template.setAll({
+      fontSize: isMobile ? 10 : 12,
+    });
 
     yRenderer.grid.template.setAll({
       strokeDasharray: [2, 2],
@@ -85,8 +98,8 @@ const BarChart = ({ data }) => {
     series.data.setAll(data);
 
     // Animations
-    series.appear(1000);
-    chart.appear(1000, 100);
+    series.appear(800);
+    chart.appear(800, 100);
 
     return () => {
       root.dispose();
@@ -96,7 +109,10 @@ const BarChart = ({ data }) => {
   return (
     <div
       ref={chartRef}
-      style={{ width: "100%", height: "400px" }}
+      style={{
+        width: "100%",
+        height: window.innerWidth < 600 ? "280px" : "400px",
+      }}
     />
   );
 };

@@ -24,16 +24,19 @@ const localizer = dateFnsLocalizer({
 
 const mapDataToEvents = (data) => {
   if (!data) return [];
-  
+
   return Object.keys(data).map(dateStr => {
     const [day, month, year] = dateStr.split('-');
+
     return {
-      title: 'Data Available',
+      title: "", 
       start: new Date(year, month - 1, day),
-      end: new Date(year, month - 1, day)
+      end: new Date(year, month - 1, day),
+      allDay: true,
     };
   });
 };
+
 
 const CalenderView = ({ onDateSelect }) => {
   const [view, setView] = useState('month');
@@ -290,16 +293,36 @@ const CalenderView = ({ onDateSelect }) => {
         components={{
           toolbar: CustomToolbar
         }}
-        dayPropGetter={(date) => {
-          if (selectedDate && format(date, "dd-MM-yyyy") === selectedDate) {
-            return {
-              style: {
-                backgroundColor: "#BBDEFB",
-                border: "2px solid #2196F3",
-              },
-            };
-          }
-        }}
+        eventPropGetter={() => ({
+  style: {
+    backgroundColor: "transparent",
+    border: "none",
+    padding: 0,
+  },
+})}
+
+dayPropGetter={(date) => {
+  const formatted = format(date, "dd-MM-yyyy");
+  const hasData = calendarData?.[formatted];
+
+  if (selectedDate === formatted) {
+    return {
+      className: hasData ? "has-data" : "",
+      style: {
+        backgroundColor: "#BBDEFB",
+        border: "2px solid #2196F3",
+        borderRadius: "8px",
+      },
+    };
+  }
+
+  if (hasData) {
+    return {
+      className: "has-data",
+    };
+  }
+}}
+
       />
     </Paper>
   );
