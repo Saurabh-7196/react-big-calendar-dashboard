@@ -19,8 +19,7 @@ const localizer = dateFnsLocalizer({
   locales
 });
 
-
-const CalendarView = () => {
+const CalendarView = ({onDateSelect}) => {
   const dispatch = useDispatch();
   const calendarData = useSelector((state) => state.calendar.data);
 
@@ -28,16 +27,18 @@ const CalendarView = () => {
 
   const handleSelectSlot = (slotInfo) => {
     dispatch(setSelectedDate(slotInfo.start));
+    onDateSelect();
   };
 
   const handleSelectEvent = (event) => {
     dispatch(setSelectedDate(event.start));
+    onDateSelect();
   };
+
 
   const selectedDate = useSelector(
     (state) => state.calendar.selectedDate
   );
-
 
   return (
     <Calendar
@@ -57,7 +58,7 @@ const CalendarView = () => {
         ) {
           return {
             style: {
-              backgroundColor: "#90CAF9"
+              backgroundColor: "#daedfdff"
             }
           };
         }
